@@ -8,11 +8,23 @@ trigger:
 
 pool: DEV_TEST
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages: 
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+# Initialize terraform environment
+- stage: TerraformInit
+  displayName: 'Terraform Initialize'
+  jobs: 
+  - job: TerraformInit
+    steps: 
+    - script: |
+          terraform init -upgrade
+      displayName: Initialize terraform
+
+- stage: TerraformPlan
+  displayName: 'Terraform Plan'
+  jobs:
+    - job: TerraformPlan 
+      steps: 
+      - script: |
+            terraform plan
+        displayName: Run Terraform plan
