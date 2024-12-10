@@ -22,7 +22,8 @@ stages:
         cd ./Terraform-deployment
         rm -rf .terraform
         rm -f .terraform.lock.hcl
-        terraform init 
+        ls -lR
+        terraform init
       displayName: 'Clean up and reinitialize Terraform'
 
 
