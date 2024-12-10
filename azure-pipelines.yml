@@ -6,29 +6,36 @@
 trigger:
 - main
 
-pool: DEV_TEST
+pool: DEV_TEST # Ensure this pool is correctly configured
 
-stages: 
+stages:
 
-# Initialize terraform environment
+# Stage 1: Initialize Terraform
 - stage: TerraformInit
   displayName: 'Terraform Initialize'
   jobs: 
   - job: TerraformInit
+    displayName: 'Initialize Terraform Environment'
     steps: 
+    - checkout: self # Ensure repo is checked out
     - script: |
-          terraform init -upgrade
-      displayName: Initialize terraform
+        terraform init -upgrade
+      displayName: 'Run terraform init'
 
+# Stage 2: Terraform Plan
 - stage: TerraformPlan
   displayName: 'Terraform Plan'
+  dependsOn: TerraformInit
   jobs:
-        - job: TerraformPlan 
-          steps: 
-          - script: | 
-                   ls -lR
-          - checkout: self 
-          - script: |
-                terraform plan
-            displayName: Run Terraform plan
+  - job: TerraformPlan 
+    displayName: 'Run Terraform Plan'
+    steps: 
+    - checkout: self # Ensure repo is checked out
+    - script: |
+        ls -lR
+      displayName: 'List repo files'
+    - script: |
+        terraform plan -out=tfplan
+      displayName: 'Run terraform plan'
+
     
