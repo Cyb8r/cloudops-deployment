@@ -19,6 +19,11 @@ stages:
     steps: 
     - checkout: self # Ensure repo is checked out
     - script: |
+        echo "Current directory:"
+        pwd
+        echo "Listing all files:"
+        ls -lR
+        cd ./Terraform-deployment
         terraform init -upgrade
       displayName: 'Run terraform init'
 
@@ -32,10 +37,12 @@ stages:
     steps: 
     - checkout: self # Ensure repo is checked out
     - script: |
+        echo "Current directory:"
+        pwd
+        echo "Listing all files:"
         ls -lR
-      displayName: 'List repo files'
-    - script: |
-        terraform plan -out=tfplan
+        cd ./Terraform-deployment 
+        terraform plan -out main.tfplan
       displayName: 'Run terraform plan'
 
     
