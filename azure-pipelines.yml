@@ -23,8 +23,12 @@ stages:
 - stage: TerraformPlan
   displayName: 'Terraform Plan'
   jobs:
-    - job: TerraformPlan 
-      steps: 
-      - script: |
-            terraform plan
-        displayName: Run Terraform plan
+        - job: TerraformPlan 
+          steps: 
+          - script: | 
+                   ls -lR
+          - checkout: self 
+          - script: |
+                terraform plan
+            displayName: Run Terraform plan
+    
