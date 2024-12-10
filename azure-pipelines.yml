@@ -19,13 +19,12 @@ stages:
     steps: 
     - checkout: self # Ensure repo is checked out
     - script: |
-        echo "Current directory:"
-        pwd
-        echo "Listing all files:"
-        ls -lR
         cd ./Terraform-deployment
+        rm -rf .terraform
+        rm -f .terraform.lock.hcl
         terraform init -upgrade
-      displayName: 'Run terraform init'
+      displayName: 'Clean up and reinitialize Terraform'
+
 
 # Stage 2: Terraform Plan
 - stage: TerraformPlan
